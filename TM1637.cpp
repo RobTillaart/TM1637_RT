@@ -2,13 +2,16 @@
 //    FILE: TM1637.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2019-10-28
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: TM1637 library for Arduino
 //     URL: https://github.com/RobTillaart/TM1637_RT
 //
 //  HISTORY:
-//  0.1.0   2019-10-28 initial version
-//  0.1.1   2021-02-15 first release + examples. 
+//  0.1.0   2019-10-28  initial version
+//  0.1.1   2021-02-15  first release + examples. 
+//  0.1.2   2021-04-16  update readme, fix default values.
+
+
 //          tested on 6 digits display only for now.
 
 
@@ -50,6 +53,8 @@ static uint8_t seg[] =
 
 TM1637::TM1637()
 {
+  _brightness = 0x03;
+  _bitDelay   = 10;
 }
 
 
@@ -58,8 +63,6 @@ void TM1637::init(uint8_t clockPin, uint8_t dataPin, uint8_t digits)
   _clock  = clockPin;
   _data   = dataPin;
   _digits = digits;
-  _brightness = 0x03;
-  _bitDelay   = 10;
 
   pinMode(_clock, OUTPUT);
   digitalWrite(_clock, HIGH);
