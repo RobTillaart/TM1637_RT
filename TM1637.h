@@ -3,7 +3,7 @@
 //    FILE: TM1637.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2019-10-28
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PUPROSE: TM1637 library for Arduino
 //     URL: https://github.com/RobTillaart/TM1637_RT
 
@@ -13,7 +13,7 @@
 
 #include "Arduino.h"
 
-#define TM1637_LIB_VERSION      (F(0.1.1))
+#define TM1637_LIB_VERSION      (F(0.1.2))
 
 
 class TM1637
@@ -37,11 +37,11 @@ class TM1637
     uint8_t getBitDelay() { return _bitDelay; };
 
   private:
-    uint8_t _clock;
-    uint8_t _data;
-    uint8_t _digits;
-    uint8_t _brightness;
-    uint8_t _bitDelay;
+    uint8_t _clock      = -1;
+    uint8_t _data       = -1;
+    uint8_t _digits     = 4;
+    uint8_t _brightness = 3;
+    uint8_t _bitDelay   = 10;
 
     uint8_t writeByte(uint8_t data);
     void    start();
