@@ -46,6 +46,8 @@ class TM1637
     uint8_t writeByte(uint8_t data);
     void    start();
     void    stop();
+
+    void writeSync(uint8_t pin, uint8_t val);
 };
 
 // -- END OF FILE --
