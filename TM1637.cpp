@@ -25,10 +25,6 @@
 #define TM1637_CMD_SET_ADDR        0xC0
 #define TM1637_CMD_DISPLAY         0x88
 
-#if defined(ESP32)
-  #define CLOCK_DELAY 1
-#endif
-
 
 /***************
    ---
@@ -236,12 +232,20 @@ void TM1637::stop()
   writeSync(_data, HIGH);
 }
 
-void TM1637::writeSync(uint8_t pin, uint8_t val) {
+void TM1637::writeSync(uint8_t pin, uint8_t val) 
+{
   digitalWrite(pin, val);
 
-  #ifdef CLOCK_DELAY
-  delayMicroseconds(CLOCK_DELAY);
+  #if defined(ESP32)
+    nanoDelay(2);
   #endif
+
+}
+
+void TM1637::nanoDelay(uint16_t n)    // 240 ==> at 240 MHz
+{
+  volatile uint16_t i;
+  for (i = 0; i < n; ++i);
 }
 
 // -- END OF FILE --

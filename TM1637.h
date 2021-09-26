@@ -48,6 +48,7 @@ class TM1637
     void    stop();
 
     void writeSync(uint8_t pin, uint8_t val);
+    void nanoDelay(uint16_t n);
 };
 
 // -- END OF FILE --
