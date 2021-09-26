@@ -2,7 +2,7 @@
 //    FILE: TM1637.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2019-10-28
-// VERSION: 0.1.2
+// VERSION: 0.2.0
 // PURPOSE: TM1637 library for Arduino
 //     URL: https://github.com/RobTillaart/TM1637_RT
 //
@@ -10,7 +10,7 @@
 //  0.1.0   2019-10-28  initial version
 //  0.1.1   2021-02-15  first release + examples. 
 //  0.1.2   2021-04-16  update readme, fix default values.
-
+//  0.2.0   2021-09-26  add ESP32 support - kudos to alexthomazo
 
 //          tested on 6 digits display only for now.
 
@@ -232,6 +232,7 @@ void TM1637::stop()
   writeSync(_data, HIGH);
 }
 
+
 void TM1637::writeSync(uint8_t pin, uint8_t val) 
 {
   digitalWrite(pin, val);
@@ -239,9 +240,12 @@ void TM1637::writeSync(uint8_t pin, uint8_t val)
   #if defined(ESP32)
     nanoDelay(2);
   #endif
-
+  // other processors may need other "nanoDelay(n)"
 }
 
+
+// nanoDelay() makes it possible to go into the sub micron delays. 
+// It is used to lengthen pulses to be minimal 400 ns but not much longer. See datasheet.
 void TM1637::nanoDelay(uint16_t n)
 {
   volatile uint16_t i = n;
