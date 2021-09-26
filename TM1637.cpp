@@ -242,10 +242,10 @@ void TM1637::writeSync(uint8_t pin, uint8_t val)
 
 }
 
-void TM1637::nanoDelay(uint16_t n)    // 240 ==> at 240 MHz
+void TM1637::nanoDelay(uint16_t n)
 {
-  volatile uint16_t i;
-  for (i = 0; i < n; ++i);
+  volatile uint16_t i = n;
+  while (i--);
 }
 
 // -- END OF FILE --
