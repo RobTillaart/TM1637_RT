@@ -192,14 +192,15 @@ uint8_t TM1637::writeByte(uint8_t data)
   // shift out data 8 bits LSB first
   for (uint8_t i = 8; i > 0; i--)
   {
-    digitalWrite(_clock, LOW);
-    digitalWrite(_data, data & 0x01);
-    digitalWrite(_clock, HIGH);
+    writeSync(_clock, LOW);
+    writeSync(_data, data & 0x01);
+    writeSync(_clock, HIGH);
     data >>= 1;
   }
-  digitalWrite(_clock, LOW);
-  digitalWrite(_data, HIGH);
-  digitalWrite(_clock, HIGH);
+
+  writeSync(_clock, LOW);
+  writeSync(_data, HIGH);
+  writeSync(_clock, HIGH);
 
   // get ACKNOWLEDGE
   pinMode(_data, INPUT);
@@ -216,20 +217,35 @@ uint8_t TM1637::writeByte(uint8_t data)
 
 void TM1637::start()
 {
-  digitalWrite(_clock, HIGH);
-  digitalWrite(_data, HIGH);
-  digitalWrite(_data, LOW);
-  digitalWrite(_clock, LOW);
+  writeSync(_clock, HIGH);
+  writeSync(_data, HIGH);
+  writeSync(_data, LOW);
+  writeSync(_clock, LOW);
 }
 
 
 void TM1637::stop()
 {
-  digitalWrite(_clock, LOW);
-  digitalWrite(_data, LOW);
-  digitalWrite(_clock, HIGH);
-  digitalWrite(_data, HIGH);
+  writeSync(_clock, LOW);
+  writeSync(_data, LOW);
+  writeSync(_clock, HIGH);
+  writeSync(_data, HIGH);
 }
 
+void TM1637::writeSync(uint8_t pin, uint8_t val) 
+{
+  digitalWrite(pin, val);
+
+  #if defined(ESP32)
+    nanoDelay(2);
+  #endif
+
+}
+
+void TM1637::nanoDelay(uint16_t n)
+{
+  volatile uint16_t i = n;
+  while (i--);
+}
 
 // -- END OF FILE --
