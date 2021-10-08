@@ -11,6 +11,8 @@
 //  0.1.1   2021-02-15  first release + examples. 
 //  0.1.2   2021-04-16  update readme, fix default values.
 //  0.2.0   2021-09-26  add ESP32 support - kudos to alexthomazo
+//          2021-10-07	add support for letters g-z; added keyscan()
+//                      tested on ESP8266
 
 //          tested on 6 digits display only for now.
 
@@ -19,6 +21,7 @@
 
 
 #define TM1637_ADDR_AUTO           0x40
+#define TM1637_READ_KEYSCAN        0x42
 #define TM1637_ADDR_FIXED          0x44
 
 #define TM1637_CMD_SET_DATA        0x40
@@ -50,6 +53,14 @@ static uint8_t seg[] =
   0x77, 0x7c, 0x39, 0x5e, 0x79, 0x71, 0x00, 0x40                // A - F, ' ', '-'
 };
 
+static uint8_t alpha_seg[] =
+{
+    0x00, 0x74, 0x10, 0x00,      // g, h, i, j,
+    0x00, 0x30, 0x00, 0x54,      // k, l, m, n,
+    0x5c, 0x00, 0x00, 0x50,      // o, p, q, r,
+    0x00, 0x31, 0x1c, 0x1c,      // s, t, u, v,
+    0x00, 0x00, 0x00, 0x00       // w, x, y, z
+};
 
 TM1637::TM1637()
 {
@@ -160,7 +171,7 @@ void TM1637::setBrightness(uint8_t b)
 
 void TM1637::displayRaw(uint8_t * data, uint8_t pointPos)
 {
-  uint8_t b;
+  uint8_t b, dp;
   start();
   writeByte(TM1637_ADDR_AUTO);
   stop();
@@ -169,14 +180,28 @@ void TM1637::displayRaw(uint8_t * data, uint8_t pointPos)
   writeByte(TM1637_CMD_SET_ADDR);
   for (uint8_t i = 3; i < 6 ; i++)
   {
-    b = seg[data[i]];
-    if (i == pointPos) b |= 0x80;
+    dp = data[i] & 0x80;
+    data[i] &= 0x7f;
+    if(data[i] <= 17) {
+      b = seg[data[i]];
+    }
+    else if(data[i] <= 37) {
+      b = alpha_seg[data[i]-18];
+    }
+    if (i == pointPos || dp) b |= 0x80;
     writeByte(b);
   }
   for (uint8_t i = 0; i < 3 ; i++)
   {
-    b = seg[data[i]];
-    if (i == pointPos) b |= 0x80;
+    dp = data[i] & 0x80;
+    data[i] &= 0x7f;
+    if(data[i] <= 17) {
+      b = seg[data[i]];
+    }
+    else if(data[i] <= 37) {
+      b = alpha_seg[data[i]-18];
+    }
+    if (i == pointPos || dp) b |= 0x80;
     writeByte(b);
   }
   stop();
@@ -185,7 +210,6 @@ void TM1637::displayRaw(uint8_t * data, uint8_t pointPos)
   writeByte(TM1637_CMD_DISPLAY | _brightness);
   stop();
 }
-
 
 uint8_t TM1637::writeByte(uint8_t data)
 {
@@ -213,7 +237,6 @@ uint8_t TM1637::writeByte(uint8_t data)
   delayMicroseconds(_bitDelay);
   return rv;
 }
-
 
 void TM1637::start()
 {
@@ -243,6 +266,41 @@ void TM1637::writeSync(uint8_t pin, uint8_t val)
   // other processors may need other "nanoDelay(n)"
 }
 
+uint8_t TM1637::keyscan(void)
+{
+uint8_t key;
+  start();
+  key = 0;
+  writeByte(TM1637_READ_KEYSCAN);	// includes the ACK, leaves DATA low
+  pinMode(_data, INPUT);
+
+  for (uint8_t i = 0; i <= 7; i++) {
+    writeSync(_clock, LOW);
+    delayMicroseconds(_bitDelay >> 1);
+    key = key >> 1;
+    writeSync(_clock, HIGH);
+    delayMicroseconds(_bitDelay >> 1);
+    if(digitalRead(_data)) {
+      key |= 0x80;
+    }
+    else {
+      key |= 0x00;
+    }
+  }
+
+  writeSync(_clock, LOW);
+  delayMicroseconds(1);
+  writeSync(_clock, HIGH);
+
+  // wait for ACK
+  delayMicroseconds(_bitDelay);
+
+  // FORCE OUTPUT LOW
+  pinMode(_data, OUTPUT);
+  digitalWrite(_data, LOW);
+  delayMicroseconds(_bitDelay);
+  return key;
+}
 
 // nanoDelay() makes it possible to go into the sub micron delays. 
 // It is used to lengthen pulses to be minimal 400 ns but not much longer. See datasheet.

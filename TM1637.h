@@ -35,6 +35,7 @@ class TM1637
     // tune the timing of writing bytes.
     void    setBitDelay(uint8_t bitDelay = 10) { _bitDelay = bitDelay; };
     uint8_t getBitDelay() { return _bitDelay; };
+    uint8_t keyscan(void);
 
   private:
     uint8_t _clock      = -1;
