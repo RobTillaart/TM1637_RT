@@ -11,15 +11,13 @@
 
 TM1637 TM;
 
-uint32_t start, stop;
-volatile float f = 3.14159265;
-
 void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
 
   TM.init(2, 3);
+  TM.setBrightness(2);
 }
 
 void ascii_to_7segment(char *buff, uint8_t *data) {
@@ -45,8 +43,10 @@ void ascii_to_7segment(char *buff, uint8_t *data) {
 
 void loop()
 {
-char buff[20], data[10];
+char buff[20];
+uint8_t data[10];
   strcpy(buff, "hello ");
+  Serial.println("hello");
   ascii_to_7segment(buff, data);
   TM.displayRaw(data, -1);
   delay(1000);
