@@ -12,10 +12,15 @@
 //  0.1.2   2021-04-16  update readme, fix default values.
 //  0.2.0   2021-09-26  add ESP32 support - kudos to alexthomazo
 //          2021-10-07	add support for letters g-z; added keyscan()
-//                      tested on ESP8266
+//                      keyscan() tested on ESP8266 and Atmega 328
 
 //          tested on 6 digits display only for now.
 
+// NOTE: on the inexpensive TM1637 boards @wfdudley has used, keyscan
+// works if you add a 470 ohm pullup resistor from DIO to 3.3v
+// This reduces the rise time of the DIO signal when reading the key info.
+// If one only uses the pullup inside the microcontroller, the rise time is
+// too long for the data to be read reliably.
 
 #include "TM1637.h"
 
@@ -56,7 +61,7 @@ static uint8_t seg[] =
 static uint8_t alpha_seg[] =
 {
     0x00, 0x74, 0x10, 0x00,      // g, h, i, j,
-    0x00, 0x30, 0x00, 0x54,      // k, l, m, n,
+    0x00, 0x38, 0x00, 0x54,      // k, l, m, n,
     0x5c, 0x00, 0x00, 0x50,      // o, p, q, r,
     0x00, 0x31, 0x1c, 0x1c,      // s, t, u, v,
     0x00, 0x00, 0x00, 0x00       // w, x, y, z
@@ -211,6 +216,7 @@ void TM1637::displayRaw(uint8_t * data, uint8_t pointPos)
   stop();
 }
 
+
 uint8_t TM1637::writeByte(uint8_t data)
 {
   // shift out data 8 bits LSB first
@@ -237,6 +243,7 @@ uint8_t TM1637::writeByte(uint8_t data)
   delayMicroseconds(_bitDelay);
   return rv;
 }
+
 
 void TM1637::start()
 {
@@ -266,39 +273,42 @@ void TM1637::writeSync(uint8_t pin, uint8_t val)
   // other processors may need other "nanoDelay(n)"
 }
 
+// keyscan results are reversed left for right from the data sheet.
+// here are the values returned by keyscan():
+// pin       2    3    4    5    6    7    8    9
+//         sg1  sg2  sg3  sg4  sg5  sg6  sg7  sg8
+// 19  k1 0xf7 0xf6 0xf5 0xf4 0xf3 0xf2 0xf1 0xf0
+// 20  k2 0xef 0xee 0xed 0xec 0xeb 0xea 0xe9 0xe8
+
 uint8_t TM1637::keyscan(void)
 {
+uint8_t halfDelay = _bitDelay >> 1;
 uint8_t key;
   start();
   key = 0;
   writeByte(TM1637_READ_KEYSCAN);	// includes the ACK, leaves DATA low
-  pinMode(_data, INPUT);
+  pinMode(_data, INPUT_PULLUP);
 
   for (uint8_t i = 0; i <= 7; i++) {
     writeSync(_clock, LOW);
-    delayMicroseconds(_bitDelay >> 1);
-    key = key >> 1;
+    delayMicroseconds(halfDelay);
     writeSync(_clock, HIGH);
-    delayMicroseconds(_bitDelay >> 1);
-    if(digitalRead(_data)) {
-      key |= 0x80;
-    }
-    else {
-      key |= 0x00;
-    }
+    delayMicroseconds(halfDelay);
+    key >>= 1;
+    key |= (digitalRead(_data)) ? 0x80 : 0x00 ;
   }
-
   writeSync(_clock, LOW);
-  delayMicroseconds(1);
+  delayMicroseconds(halfDelay);
   writeSync(_clock, HIGH);
 
   // wait for ACK
-  delayMicroseconds(_bitDelay);
+  delayMicroseconds(halfDelay);
 
   // FORCE OUTPUT LOW
   pinMode(_data, OUTPUT);
   digitalWrite(_data, LOW);
-  delayMicroseconds(_bitDelay);
+  delayMicroseconds(halfDelay);
+  stop();
   return key;
 }
 
