@@ -12,7 +12,7 @@
 TM1637 TM;
 
 // Note: In my experience, the TM1637 boards need a pull up
-// resistor from DIO to 3.3V for keyscan() to work.  470 ohms
+// resistor from DIO to 3.3V for keyscan() to work.  1000 ohms
 // seems to work well, but value isn't critical.
 
 // TRIGGER is scope trigger signal for development.
@@ -22,7 +22,7 @@ TM1637 TM;
 // This allows experimenting with the pullup resistor
 // from DIO to 3.3V.  Smaller values decrease rise time
 // (a good thing) but too small and the microcontroller
-// can't pull the line down (a bad thing).  Try 470 ohms.
+// can't pull the line down (a bad thing).  Try 1000 ohms.
 
 #if defined(ESP8266) || defined(ESP32)
 #define dispCLOCK D3
