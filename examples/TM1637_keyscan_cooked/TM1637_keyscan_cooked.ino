@@ -12,7 +12,7 @@
 TM1637 TM;
 
 // Note: In my experience, the TM1637 boards need a pull up
-// resistor from DIO to 3.3V for keyscan() to work.  470 ohms
+// resistor from DIO to 3.3V for keyscan() to work.  1000 ohms
 // seems to work well, but value isn't critical.
 
 char buff[8];
