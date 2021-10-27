@@ -19,13 +19,13 @@ char buff[8];
 uint8_t last_keypress, bptr;
 
 
-// #if defined(ESP8266)
-// #define dispCLOCK D3
-// #define dispDATA D4
-// #else
+#if defined(ESP8266)
+#define dispCLOCK D3
+#define dispDATA D4
+#else
 #define dispCLOCK 3
 #define dispDATA 4
-// #endif
+#endif
 
 
 void setup()
