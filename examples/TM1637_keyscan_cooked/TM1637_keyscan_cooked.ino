@@ -11,12 +11,13 @@
 
 TM1637 TM;
 
-// Note: In my experience, the TM1637 boards need a pull up
-// resistor from DIO to 3.3V for keyscan() to work.  470 ohms
-// seems to work well, but value isn't critical.
+// Note: 
+// TM1637 boards need a pull up resistor from DIO to 3.3V for keyscan() to work.  
+// 910 ohms or 1 Kohm works, the value isn't critical.
 
 char buff[8];
 uint8_t last_keypress, bptr;
+
 
 #if defined(ESP8266)
 #define dispCLOCK D3
@@ -25,6 +26,7 @@ uint8_t last_keypress, bptr;
 #define dispCLOCK 3
 #define dispDATA 4
 #endif
+
 
 void setup()
 {
@@ -44,6 +46,7 @@ void setup()
   last_keypress = 0;
   memset(buff, '\0', sizeof(buff)/sizeof(char));
 }
+
 
 char button_poll(void) {
 char c;
@@ -82,6 +85,7 @@ static unsigned long last_key_time;
   return '\0';
 }
 
+
 void ascii_to_7segment(char *buff, uint8_t *data) {
   for(int8_t i = 0, j=5 ; j > -1 && i < 12 && buff[i] ; i++) {
     if(isalpha(buff[i])) { buff[i] = tolower(buff[i]); }
@@ -102,6 +106,7 @@ void ascii_to_7segment(char *buff, uint8_t *data) {
     }
   }
 }
+
 
 void loop()
 {

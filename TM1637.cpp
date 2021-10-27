@@ -13,16 +13,18 @@
 //  0.2.0   2021-09-26  add ESP32 support - kudos to alexthomazo
 //          2021-10-07  add support for letters g-z; added keyscan()
 //                      tested on ESP8266
-//  0.3.0   2021-10-27  improved keyscan + documentation
+//  0.3.0   2021-10-27  improved keyscan + documentation - kudos to wfdudley
 
 
 //          tested on 6 digits display only for now.
 
-// NOTE: on the inexpensive TM1637 boards @wfdudley has used, keyscan
-// works if you add a 910 ohm pullup resistor from DIO to 3.3v
+
+// NOTE: 
+// on the TM1637 boards tested by @wfdudley, keyscan() works well 
+// if you add a 910 ohm or 1 Kohm pull-up resistor from DIO to 3.3v
 // This reduces the rise time of the DIO signal when reading the key info.
-// If one only uses the pullup inside the microcontroller, the rise time is
-// too long for the data to be read reliably.
+// If one only uses the pull-up inside the microcontroller, 
+// the rise time is too long for the data to be read reliably.
 
 
 #include "TM1637.h"
