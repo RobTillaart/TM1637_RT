@@ -23,15 +23,15 @@ TM1637 TM;
 // can't pull the line down (a bad thing).
 
 
-#if defined(ESP8266) || defined(ESP32)
-#define dispCLOCK D3
-#define dispDATA D4
-#define TRIGGER D1
-#else
+// #if defined(ESP8266) || defined(ESP32)
+// #define dispCLOCK D3
+// #define dispDATA D4
+// #define TRIGGER D1
+// #else
 #define dispCLOCK 3
 #define dispDATA 4
 #define TRIGGER 5
-#endif
+// #endif
 
 
 void setup()
