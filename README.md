@@ -36,9 +36,13 @@ As the display is only tested with a 6 digit display, this is used as the defaul
 - **uint8_t getBrightness()** returns value set.
 - **uint8_t keyscan(void)** scan keyboard once and return result.
 
-**displayRaw()** can display multiple decimal points, by setting the high bit (0x80) in each character for which you wish to have a decimal lit. Or you can use the pointPos argument to light just one decimal at that position.
+**displayRaw()** can display multiple decimal points, by setting the high bit (0x80) in each character for which you wish to have a decimal lit.  Or you can use the pointPos argument to light just one decimal at that position.
 
-**displayRaw()** can display some of the alphabet as follows: space (blank) is 0x10 - (blank) is 0x11 a-f are coded as 0x0a-0x0f g-z are coded as 0x12-0x25
+**displayRaw()** can display some of the alphabet as follows:
+   space (blank) is 0x10
+   - (blank) is 0x11
+   a-f are coded as 0x0a-0x0f
+   g-z are coded as 0x12-0x25
 
 So "hello " is coded as 0x13, 0x0e, 0x17, 0x17, 0x1a, 0x10
 
