@@ -20,8 +20,8 @@ uint8_t last_keypress, bptr;
 
 
 #if defined(ESP8266)
-#define dispCLOCK D3
-#define dispDATA D4
+#define dispCLOCK 13
+#define dispDATA 14
 #else
 #define dispCLOCK 3
 #define dispDATA 4

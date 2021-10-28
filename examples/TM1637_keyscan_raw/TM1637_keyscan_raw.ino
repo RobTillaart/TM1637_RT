@@ -1,4 +1,4 @@
-//
+
 //    FILE: TM1637_keypress_raw.ino
 //  AUTHOR: William F. Dudley Jr.
 // VERSION: 0.1.0
@@ -23,15 +23,15 @@ TM1637 TM;
 // can't pull the line down (a bad thing).
 
 
-// #if defined(ESP8266) || defined(ESP32)
-// #define dispCLOCK D3
-// #define dispDATA D4
-// #define TRIGGER D1
-// #else
+#if defined(ESP8266) || defined(ESP32)
+#define dispCLOCK 13
+#define dispDATA 14
+#define TRIGGER 15
+#else
 #define dispCLOCK 3
 #define dispDATA 4
 #define TRIGGER 5
-// #endif
+#endif
 
 
 void setup()
