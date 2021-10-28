@@ -17,7 +17,7 @@
 //          tested on 6 digits display only for now.
 
 // NOTE: on the inexpensive TM1637 boards @wfdudley has used, keyscan
-// works if you add a 470 ohm pullup resistor from DIO to 3.3v
+// works if you add a 1000 ohm pullup resistor from DIO to 3.3v
 // This reduces the rise time of the DIO signal when reading the key info.
 // If one only uses the pullup inside the microcontroller, the rise time is
 // too long for the data to be read reliably.
