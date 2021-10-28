@@ -1,4 +1,4 @@
-//
+
 //    FILE: TM1637_keypress_raw.ino
 //  AUTHOR: William F. Dudley Jr.
 // VERSION: 0.1.0
@@ -24,15 +24,11 @@ TM1637 TM;
 // (a good thing) but too small and the microcontroller
 // can't pull the line down (a bad thing).  Try 1000 ohms.
 
-#if defined(ESP8266) || defined(ESP32)
-#define dispCLOCK D3
-#define dispDATA D4
-#define TRIGGER D1
-#else
 #define dispCLOCK 3
 #define dispDATA 4
 #define TRIGGER 5
-#endif
+
+
 
 void setup()
 {
