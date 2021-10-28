@@ -18,13 +18,11 @@ TM1637 TM;
 char buff[8];
 uint8_t last_keypress, bptr;
 
-#if defined(ESP8266)
-#define dispCLOCK D3
-#define dispDATA D4
-#else
+
 #define dispCLOCK 3
 #define dispDATA 4
-#endif
+
+
 
 void setup()
 {
@@ -44,6 +42,7 @@ void setup()
   last_keypress = 0;
   memset(buff, '\0', sizeof(buff)/sizeof(char));
 }
+
 
 char button_poll(void) {
 char c;
@@ -82,6 +81,7 @@ static unsigned long last_key_time;
   return '\0';
 }
 
+
 void ascii_to_7segment(char *buff, uint8_t *data) {
   for(int8_t i = 0, j=5 ; j > -1 && i < 12 && buff[i] ; i++) {
     if(isalpha(buff[i])) { buff[i] = tolower(buff[i]); }
@@ -102,6 +102,7 @@ void ascii_to_7segment(char *buff, uint8_t *data) {
     }
   }
 }
+
 
 void loop()
 {

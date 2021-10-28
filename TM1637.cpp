@@ -2,7 +2,7 @@
 //    FILE: TM1637.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2019-10-28
-// VERSION: 0.2.0
+// VERSION: 0.3.0
 // PURPOSE: TM1637 library for Arduino
 //     URL: https://github.com/RobTillaart/TM1637_RT
 //
@@ -11,16 +11,20 @@
 //  0.1.1   2021-02-15  first release + examples. 
 //  0.1.2   2021-04-16  update readme, fix default values.
 //  0.2.0   2021-09-26  add ESP32 support - kudos to alexthomazo
-//          2021-10-07	add support for letters g-z; added keyscan()
-//                      keyscan() tested on ESP8266 and Atmega 328
+//          2021-10-07  add support for letters g-z; added keyscan()
+//                      tested on ESP8266
+//  0.3.0   2021-10-27  improved keyscan + documentation - kudos to wfdudley
+
 
 //          tested on 6 digits display only for now.
+
 
 // NOTE: on the inexpensive TM1637 boards @wfdudley has used, keyscan
 // works if you add a 1000 ohm pullup resistor from DIO to 3.3v
 // This reduces the rise time of the DIO signal when reading the key info.
-// If one only uses the pullup inside the microcontroller, the rise time is
-// too long for the data to be read reliably.
+// If one only uses the pull-up inside the microcontroller, 
+// the rise time is too long for the data to be read reliably.
+
 
 #include "TM1637.h"
 
@@ -273,6 +277,7 @@ void TM1637::writeSync(uint8_t pin, uint8_t val)
   // other processors may need other "nanoDelay(n)"
 }
 
+
 // keyscan results are reversed left for right from the data sheet.
 // here are the values returned by keyscan():
 // pin       2    3    4    5    6    7    8    9
@@ -282,8 +287,8 @@ void TM1637::writeSync(uint8_t pin, uint8_t val)
 
 uint8_t TM1637::keyscan(void)
 {
-uint8_t halfDelay = _bitDelay >> 1;
-uint8_t key;
+  uint8_t halfDelay = _bitDelay >> 1;
+  uint8_t key;
   start();
   key = 0;
   writeByte(TM1637_READ_KEYSCAN);	// includes the ACK, leaves DATA low
@@ -297,6 +302,7 @@ uint8_t key;
     key >>= 1;
     key |= (digitalRead(_data)) ? 0x80 : 0x00 ;
   }
+
   writeSync(_clock, LOW);
   delayMicroseconds(halfDelay);
   writeSync(_clock, HIGH);
@@ -311,6 +317,7 @@ uint8_t key;
   stop();
   return key;
 }
+
 
 // nanoDelay() makes it possible to go into the sub micron delays. 
 // It is used to lengthen pulses to be minimal 400 ns but not much longer. See datasheet.
