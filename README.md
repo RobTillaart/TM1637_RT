@@ -38,7 +38,7 @@ As the display is only tested with a 6 digit display, this is used as the defaul
 
 **displayRaw()** can display some of the alphabet as follows:
    - space (blank) is 0x10
-   - - (blank) is 0x11
+   - '-' (minus) is 0x11
    - a-f are coded as 0x0a-0x0f
    - g-z are coded as 0x12-0x25
 
