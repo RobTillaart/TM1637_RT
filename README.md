@@ -7,7 +7,7 @@
 
 # TM1637
 
-Library for TM1637 driven displays.
+Library for TM1637 driven displays and keyscans.
 
 
 ## Description
@@ -17,9 +17,6 @@ The TM1637 drives 7 segment displays and can also scan a 16 key keyboard
 Library is tested with Arduino UNO and a 6 digits display.
 
 ESP32 is supported since 0.2.0 see https://github.com/RobTillaart/TM1637_RT/pull/5
-
-
-TO ELABORATE
 
 
 ## Interface
@@ -34,7 +31,8 @@ As the display is only tested with a 6 digit display, this is used as the defaul
 - **void displayClear()** writes spaces to all positions, effectively clearing the display.
 - **void setBrightness(uint8_t b)** brightness = 0 .. 7 default = 3.
 - **uint8_t getBrightness()** returns value set.
-- **uint8_t keyscan(void)** scan keyboard once and return result.
+- **uint8_t keyscan(void)** scans the keyboard once and return result. The keyscan() function cannot detect multiple keys.
+
 
 **displayRaw()** can display multiple decimal points, by setting the high bit (0x80) in each character for which you wish to have a decimal lit.  Or you can use the pointPos argument to light just one decimal at that position.
 
@@ -45,6 +43,7 @@ As the display is only tested with a 6 digit display, this is used as the defaul
    - g-z are coded as 0x12-0x25
 
 So "hello " is coded as 0x13, 0x0e, 0x17, 0x17, 0x1a, 0x10
+
 
 ### Tuning function
 
@@ -112,6 +111,20 @@ Scope photo showing faster rise time of DIO pin (upper trace) with 1000 ohm pull
 <IMG src="images/fast_rise.jpg"></br>
 
 The scope photos were taken using the TM1637_keyscan_raw example, with the scope trigger hooked to the TRIGGER pin, and the two channel probes hooked to DIO and CLK.  Vertical sensitivity is 2v/division, horizontal timebase is 20usec/division.
+
+## Keyscan
+
+Implemented in version 0.3.0  Please read the datasheet to understand the limitations.
+
+```
+// NOTE: 
+// on the TM1637 boards tested by @wfdudley, keyscan() works well 
+// if you add a 910 ohm or 1 Kohm pull-up resistor from DIO to 3.3v
+// This reduces the rise time of the DIO signal when reading the key info.
+// If one only uses the pull-up inside the microcontroller, 
+// the rise time is too long for the data to be read reliably.
+```
+
 
 ## Operation
 
