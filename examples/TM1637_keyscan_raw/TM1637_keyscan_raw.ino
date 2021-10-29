@@ -24,7 +24,6 @@ TM1637 TM;
 // (a good thing) but too small and the microcontroller
 // can't pull the line down (a bad thing).  Try 1000 ohms.
 
-
 #define dispCLOCK 3
 #define dispDATA 4
 #define TRIGGER 5

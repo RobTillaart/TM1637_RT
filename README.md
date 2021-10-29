@@ -38,12 +38,15 @@ As the display is only tested with a 6 digit display, this is used as the defaul
 
 **displayRaw()** can display some of the alphabet as follows:
    - space (blank) is 0x10
-   - - (blank) is 0x11
+   - '-' (minus) is 0x11
    - a-f are coded as 0x0a-0x0f
-   - g-z are coded as 0x12-0x25
+   - g-z are coded as 0x12-0x25.  Characters that cannot be represented in 7 segments render as blank.
 
 So "hello " is coded as 0x13, 0x0e, 0x17, 0x17, 0x1a, 0x10
 
+See routine **ascii_to_7segment()** in the example TM1637_keyscan_cooked.ino.  It presents a more convenient interface for displaying text messages on the display.
+
+Routine **button_poll()** in the same example shows one way of polling and de-bouncing button presses.
 
 ### Tuning function
 
