@@ -13,7 +13,7 @@
 
 #include "Arduino.h"
 
-#define TM1637_LIB_VERSION      (F(0.3.1))
+#define TM1637_LIB_VERSION      (F("0.3.1"))
 
 
 class TM1637
