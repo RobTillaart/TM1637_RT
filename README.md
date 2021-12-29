@@ -12,7 +12,7 @@ Library for TM1637 driven displays and keyscans.
 
 ## Description
 
-The TM1637 drives 7 segment displays and can also scan a 16 key keyboard
+The TM1637 drives 7 segment displays and can also scan a 16 key keyboard.
 
 Library is tested with Arduino UNO and a 6 digits display.
 
@@ -115,6 +115,7 @@ Scope photo showing faster rise time of DIO pin (upper trace) with 1000 ohm pull
 
 The scope photos were taken using the TM1637_keyscan_raw example, with the scope trigger hooked to the TRIGGER pin, and the two channel probes hooked to DIO and CLK.  Vertical sensitivity is 2v/division, horizontal timebase is 20usec/division.
 
+
 ## Keyscan
 
 Implemented in version 0.3.0  Please read the datasheet to understand the limitations.
@@ -139,4 +140,6 @@ See examples
 - elaborate documentation
 - testing
 - rename **init()** to **begin()** ?
-- 
+- **keyScan()** camelCase ?
+- separate releaseNotes ?
+

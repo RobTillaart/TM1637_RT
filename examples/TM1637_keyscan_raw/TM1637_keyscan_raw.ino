@@ -24,10 +24,10 @@ TM1637 TM;
 // (a good thing) but too small and the microcontroller
 // can't pull the line down (a bad thing).  Try 1000 ohms.
 
-#define dispCLOCK 3
-#define dispDATA 4
-#define TRIGGER 5
 
+#define dispCLOCK   3
+#define dispDATA    4
+#define TRIGGER     5
 
 
 void setup()
@@ -49,6 +49,7 @@ void setup()
   TM.displayClear();
 }
 
+
 char button_poll(void) {
 #ifdef TRIGGER
   digitalWrite(TRIGGER, HIGH);
@@ -64,6 +65,7 @@ char button_poll(void) {
   return '\0';
 }
 
+
 void loop()
 {
 char c;
@@ -74,4 +76,6 @@ char c;
 #endif
 }
 
+
 // -- END OF FILE --
+
