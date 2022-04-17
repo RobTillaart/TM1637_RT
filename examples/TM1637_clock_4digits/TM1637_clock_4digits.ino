@@ -37,9 +37,9 @@ void setup()
 //  left as exercise for the programmer ;)
 void loop()
 {
-  uint32_t now = millis() % 100000;
-  float value = now * 0.001;
-  if (value - int(value) < 0.5) value *= 100;
+  uint32_t now = millis() % 100000;             // 0 - 99999
+  float value = now * 0.001;                    // 0 - 99.999
+  if (value - int(value) < 0.5) value *= 100;   // for blink :
   TM.displayFloat(value);
 }
 
