@@ -1,0 +1,61 @@
+//
+//    FILE: TM1637_clock_4digits.ino
+//  AUTHOR: Rob Tillaart
+// PURPOSE: demo TM1637 library
+//     URL: https://github.com/RobTillaart/TM1637
+
+
+#include "TM1637.h"
+
+TM1637 TM;
+
+
+uint32_t start, stop;
+volatile uint32_t val  = 0;
+
+
+void setup()
+{
+  Serial.begin(115200);
+  Serial.println(__FILE__);
+
+  TM.init(7, 6, 4);
+  TM.displayClear();
+  delay(2000);
+
+  TM.displayHex(0xDCBA);
+  delay(2000);
+  TM.displayHex(0x4321);
+  delay(2000);
+  TM.displayInt(1234);
+  delay(2000);
+  TM.displayFloat(12.341);  //  shows : in middle of clock
+  delay(2000);
+}
+
+//  mimick clock, not ok under 10 seconds
+//  left as exercise for the programmer ;)
+void loop()
+{
+  uint32_t now = millis() % 100000;
+  float value = now * 0.001;
+  if (value - int(value) < 0.5) value *= 100;
+  TM.displayFloat(value);
+}
+
+
+//  0-10 second, milliseconds timer?
+void loop2()
+{
+  uint32_t now = millis() % 10000;
+  float value = now * 0.001;
+  TM.displayFloat(value);
+}
+
+
+// todo: make a HH:MM clock
+//       with the  :  flashing every second.
+
+
+
+// -- END OF FILE --
