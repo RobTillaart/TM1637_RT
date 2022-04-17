@@ -13,6 +13,7 @@ TM1637 TM;
 uint32_t start, stop;
 volatile uint32_t val  = 0;
 
+uint8_t bright = 0;
 
 void setup()
 {
@@ -23,12 +24,19 @@ void setup()
   TM.displayClear();
   delay(2000);
 
+  TM.setBrightness(1);
   TM.displayHex(0xDCBA);
   delay(2000);
+
+  TM.setBrightness(3);
   TM.displayHex(0x4321);
   delay(2000);
+
+  TM.setBrightness(7);
   TM.displayInt(567);
   delay(2000);
+
+  TM.setBrightness(5);
   TM.displayFloat(12.341);  //  shows : in middle of clock
   delay(2000);
 }
