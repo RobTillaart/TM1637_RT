@@ -68,8 +68,8 @@ char button_poll(void) {
 
 void loop()
 {
-char c;
-  c = button_poll();
+  button_poll();
+
 #ifndef TRIGGER
   // for oscilloscope testing, don't delay for faster repetition rate
   delay(50);
