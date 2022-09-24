@@ -40,7 +40,8 @@ void setup()
   Serial.println(__TIME__);
   Serial.println(__FILE__);
 
-  TM.init(dispCLOCK, dispDATA);
+  TM.begin(dispCLOCK, dispDATA);
+
 #ifdef TRIGGER
   pinMode(TRIGGER, OUTPUT);
   digitalWrite(TRIGGER, LOW);
