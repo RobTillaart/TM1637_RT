@@ -24,6 +24,7 @@ ESP32 is supported since 0.2.0 see https://github.com/RobTillaart/TM1637_RT/pull
 - **TM1637()** constructor
 - **void begin(uint8_t clockPin, uint8_t dataPin, uint8_t digits = 6)** set up the connection of the pins to the display.
 As the display is only tested with a 6 digit display, this is used as the default of the digits parameter.
+- **void displayPChar \*buff)** display the buffer, sign bits show as decimal point.
 - **void displayRaw(uint8_t \* data, uint8_t pointPos)** low level write function.
 - **void displayInt(long value)** idem
 - **void displayFloat(float value)** idem

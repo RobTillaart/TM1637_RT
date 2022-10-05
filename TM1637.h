@@ -24,6 +24,7 @@ public:
   //  replaces init()
   void begin(uint8_t clockPin, uint8_t dataPin, uint8_t digits = 6);
 
+  void displayPChar( char * data );
   void displayRaw(uint8_t * data, uint8_t pointPos);
   void displayInt(long value);
   void displayFloat(float value);
@@ -64,6 +65,9 @@ private:
 
   void writeSync(uint8_t pin, uint8_t val);
   void nanoDelay(uint16_t n);
+
+  // Override in your own derived class for custom character translation
+  virtual uint8_t asciiTo7Segment ( char c ) ; 
 };
 
 
