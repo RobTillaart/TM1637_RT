@@ -212,9 +212,7 @@ void TM1637::displayPChar( char * data ){
       writeByte(TM1637_CMD_SET_ADDR);
     
       for (int d = _digits-1; d >=0 ; d--)
-//      for (uint8_t d = 0; d < _digits; d++)
       {
-        
         uint8_t i = _digitOrder[d];
         writeByte( asciiTo7Segment(data[i]) );
       }

@@ -24,7 +24,7 @@ ESP32 is supported since 0.2.0 see https://github.com/RobTillaart/TM1637_RT/pull
 - **TM1637()** constructor
 - **void begin(uint8_t clockPin, uint8_t dataPin, uint8_t digits = 6)** set up the connection of the pins to the display.
 As the display is only tested with a 6 digit display, this is used as the default of the digits parameter.
-- **void displayPChar \*buff)** display the buffer, sign bits show as decimal point.
+- **void displayPChar \*buff)** display the buffer. Experimental - Tested on STM32 and Arduino Nano
 - **void displayRaw(uint8_t \* data, uint8_t pointPos)** low level write function.
 - **void displayInt(long value)** idem
 - **void displayFloat(float value)** idem
@@ -42,8 +42,10 @@ As the display is only tested with a 6 digit display, this is used as the defaul
    - '-' (minus) is 0x11
    - a-f are coded as 0x0a-0x0f
    - g-z are coded as 0x12-0x25.  Characters that cannot be represented in 7 segments render as blank.
-
 So "hello " is coded as 0x13, 0x0e, 0x17, 0x17, 0x1a, 0x10
+   
+****void displayPChar \*buff)** Attempts to display every ascii character 0x30 to 0x5F, see example TM1637_custom.ino to insert your own 7 segment patterns.
+Also displayed are ' ', '.' and '-'. Decimal points may also be displayed by setting the character sign bit.
 
 See routine **ascii_to_7segment()** in the example TM1637_keyscan_cooked.ino.  It presents a more convenient interface for displaying text messages on the display.
 
