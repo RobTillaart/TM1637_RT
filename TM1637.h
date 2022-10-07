@@ -3,7 +3,7 @@
 //    FILE: TM1637.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2019-10-28
-// VERSION: 0.3.3
+// VERSION: 0.3.4
 // PUPROSE: TM1637 library for Arduino
 //     URL: https://github.com/RobTillaart/TM1637_RT
 
@@ -13,7 +13,7 @@
 
 #include "Arduino.h"
 
-#define TM1637_LIB_VERSION      (F("0.3.3"))
+#define TM1637_LIB_VERSION      (F("0.3.4"))
 
 
 class TM1637
@@ -24,7 +24,7 @@ public:
   //  replaces init()
   void begin(uint8_t clockPin, uint8_t dataPin, uint8_t digits = 6);
 
-  void displayPChar( char * data );
+  void displayPChar( char * buff );
   void displayRaw(uint8_t * data, uint8_t pointPos);
   void displayInt(long value);
   void displayFloat(float value);
