@@ -158,6 +158,45 @@ void TM1637::displayFloat(float value)
 }
 
 
+void TM1637::displayFloat(float value, byte fixpoint)
+{
+  uint8_t data[8] = { 16, 16, 16, 16, 16, 16, 16, 16};
+
+  float v = value;
+  int dpos = _digits-1;
+  int last = _digits;
+  bool neg = (v < 0);
+  int point = fixpoint+1;
+
+  if (neg)
+  {
+    v = -v;
+    dpos--;
+    last--;
+  }
+//  v +=0.0001; // Bug fix for 12.999 <> 13.000
+  v +=0.001; // Bug fix for 12.99 <> 13.00
+
+  while (v >= 10)
+  {
+    v /= 10;
+    dpos--;
+    point++;
+  }
+
+  if (neg)    data[point] = 17;   // minus sign;
+
+  for (int i = point-1; i > -1; i--)
+  {
+    int d = v;
+    data[i] = d;
+    v -= d;
+    v *= 10;
+  }
+  displayRaw(data, fixpoint);
+}
+
+
 void TM1637::displayHex(uint32_t value)
 {
   uint8_t data[8] = { 16, 16, 16, 16, 16, 16, 16, 16};
@@ -318,7 +357,7 @@ void TM1637::writeSync(uint8_t pin, uint8_t val)
   digitalWrite(pin, val);
 
   #if defined(ESP32)
-    nanoDelay(2);
+    nanoDelay(21);		// Bug for my esp32 - 2 ns not work
   #endif
   // other processors may need other "nanoDelay(n)"
 }

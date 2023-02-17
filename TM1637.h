@@ -28,6 +28,7 @@ public:
   void displayRaw(uint8_t * data, uint8_t pointPos);
   void displayInt(long value);
   void displayFloat(float value);
+  void displayFloat(float value, byte fixpoint);
   void displayHex(uint32_t value);
   void displayClear();
 
