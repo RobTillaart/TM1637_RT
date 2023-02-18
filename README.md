@@ -28,7 +28,7 @@ As the display is only tested with a 6 digit display, this is used as the defaul
 - **void displayRaw(uint8_t \* data, uint8_t pointPos)** low level write function.
 - **void displayInt(long value)** idem
 - **void displayFloat(float value)** idem
-- **void displayFloat(float value, uint8_t fixPoint)** display float with fixed point position.
+- **void displayFloat(float value, uint8_t fixedPoint)** display float with fixed point position.
 - **void displayHex(uint32_t value)** idem
 - **void displayClear()** writes spaces to all positions, effectively clearing the display.
 - **void setBrightness(uint8_t b)** brightness = 0 .. 7 default = 3.

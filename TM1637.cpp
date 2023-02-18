@@ -158,7 +158,7 @@ void TM1637::displayFloat(float value)
 }
 
 
-void TM1637::displayFloat(float value, uint8_t fixPoint)
+void TM1637::displayFloat(float value, uint8_t fixedPoint)
 {
   //  DEBUG
   //  Serial.println(value);
@@ -169,7 +169,7 @@ void TM1637::displayFloat(float value, uint8_t fixPoint)
   int dpos  = _digits - 1;
   int last  = _digits;
   bool neg  = (v < 0);
-  int point = fixPoint + 1;
+  int point = fixedPoint + 1;
 
   if (neg)
   {
@@ -199,7 +199,7 @@ void TM1637::displayFloat(float value, uint8_t fixPoint)
     v -= d;
     v *= 10;
   }
-  displayRaw(data, fixPoint);
+  displayRaw(data, fixedPoint);
 }
 
 
