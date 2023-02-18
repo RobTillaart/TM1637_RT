@@ -1,6 +1,6 @@
 //
 //    FILE: TM1637_float_point.ino
-//  AUTHOR: Rob Tillaart
+//  AUTHOR: marshalab, Rob Tillaart
 // PURPOSE: demo TM1637 library
 //     URL: https://github.com/RobTillaart/TM1637
 
@@ -30,7 +30,7 @@ void setup()
   TM.displayFloat(-1.42425, 2);
   delay(2000);
   TM.displayClear();
-  delay(2000);
+  delay(5000);
 }
 
 
@@ -46,7 +46,7 @@ void test()
   start = millis();
   for (int i = 0; i < 1000; i++)
   {
-    TM.displayFloat(f,2);  // there is loop overhead etc
+    TM.displayFloat(f, 2);  //  there is loop overhead etc
     f += 1;
   }
   stop = millis();
@@ -56,5 +56,4 @@ void test()
 }
 
 
-// -- END OF FILE --
-
+//  -- END OF FILE --
