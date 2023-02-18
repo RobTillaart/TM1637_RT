@@ -28,11 +28,11 @@ public:
   void displayRaw(uint8_t * data, uint8_t pointPos);
   void displayInt(long value);
   void displayFloat(float value);
-  void displayFloat(float value, uint8_t fixpoint);
+  void displayFloat(float value, uint8_t fixPoint);
   void displayHex(uint32_t value);
   void displayClear();
 
-  void    setBrightness(uint8_t b);
+  void    setBrightness(uint8_t brightness);
   uint8_t getBrightness();
 
   //  tune the timing of writing bytes.
