@@ -221,13 +221,6 @@ void TM1637::displayHex(uint32_t value)
 void TM1637::displayTime(uint8_t hh, uint8_t mm, bool colon)
 {
   if (_digits != 4) return;
-  displayTwoInt(hh, mm, colon);
-}
-
-
-void TM1637::displayTwoInt(uint8_t x, uint8_t y, bool colon)
-{
-  if (_digits != 4) return;
   uint8_t data[4] = { 16, 16, 16, 16 };
   data[3] = hh / 10;
   data[2] = hh % 10;
