@@ -7,7 +7,7 @@
 
 # TM1637
 
-Library for TM1637 driven displays and keyscans.
+Library for TM1637 driven displays and key scans.
 
 
 ## Description
@@ -17,6 +17,11 @@ The TM1637 drives 7 segment displays and can also scan a 16 key keyboard.
 Library is tested with Arduino UNO and a 6 digits display and 4 digit (clock) display.
 
 ESP32 is supported since 0.2.0 see https://github.com/RobTillaart/TM1637_RT/pull/5
+
+
+#### Related
+
+- https://docs.wokwi.com/parts/wokwi-tm1637-7segment#simulator-examples
 
 
 ## Interface
@@ -33,6 +38,7 @@ ESP32 is supported since 0.2.0 see https://github.com/RobTillaart/TM1637_RT/pull
 As the display is only tested with a 6 digit display, 
 this is used as the default of the digits parameter.
 
+
 #### Display functions
 
 - **void displayPChar(char \*buff)** display the buffer. 
@@ -48,12 +54,25 @@ The function does not check for overflow e.g. hh > 59 or mm > 59.
 Works only on 4 digit display.
   - hours + minutes HH:MM 
   - minutes + seconds MM:SS
-  - can also be used for temperature + humidity TT:HH or any pair of ints side by side.
+  - seconds + hundreds SS:hh
+- **void displayTwoInt(int ll, int rr, bool colon = true)** print two integers one left and one right of the colon. 
+The function allows a range from -9 .. 99 (not checked).
+The colon is default on as separator.
+Only tested on 4 digit display.
+Applications include:
+  - temperature + humidity TT:HH  (humidity to 99%)
+  - heartbeat + oxygen HH:OO
+  - meters + centimetre MM:CC  (e.g distance sensor)
+  - feet + inches FF:II
+  - any pair of integers (-9 .. 99) side by side.
+- **void displayCelsius(int temp, bool colon = false)** print temperature Celsius -9 .. 99 + °C.
+
 
 #### Brightness
 
-- **void setBrightness(uint8_t b)** brightness = 0 .. 7 default = 3.
+- **void setBrightness(uint8_t brightness = 3)** brightness = 0 .. 7 default = 3.
 - **uint8_t getBrightness()** returns value set.
+
 
 #### KeyScan
 
@@ -206,12 +225,7 @@ See examples
 
 #### Should
 
-- investigate if code can be optimized
-  - performance measurement
 - testing other platforms.
-- move code from .h to .cpp
-- add **void displayTwoInt(uint8_t x, uint8_t y, bool colon)**
-  - should work for 4 and 6 digit displays
 - refactor readme.md
 
 
@@ -220,7 +234,6 @@ See examples
 - **keyScan()** camelCase ?
 - add debug flag for test without hardware.
   - simulate output to Serial? (HEX)?
-- **displayTest()** function ?
 
 
 #### Wont (unless requested)
@@ -231,4 +244,8 @@ See examples
   - flip every digit (function to overwrite the char array)
 - **HUD(bool hud = false)** = Heads Up Display
   - flip every digit
-
+- investigate if code can be optimized 
+  - done, => tune setBitDelay()
+  - performance measurement
+- **displayTest()** function ?
+  - not needed just print 88888888
