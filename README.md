@@ -51,22 +51,25 @@ Experimental - Tested on STM32 and Arduino Nano
 - **void displayClear()** writes spaces to all positions, effectively clearing the display.
 - **void displayTime(uint8_t hh, uint8_t mm, bool colon)** displays time format.
 The function does not check for overflow e.g. hh > 59 or mm > 59.
-Works only on 4 digit display.
+Works only on a 4 digit display.
   - hours + minutes HH:MM 
   - minutes + seconds MM:SS
   - seconds + hundreds SS:hh
-- **void displayTwoInt(int ll, int rr, bool colon = true)** print two integers one left and one right of the colon. 
+- **void displayTwoInt(int ll, int rr, bool colon = true)** print two integers,
+ one left and one right of the colon. 
 The function allows a range from -9 .. 99 (not checked).
 The colon is default on as separator.
-Only tested on 4 digit display.
+Works only on a 4 digit display.
 Applications include:
   - temperature + humidity TT:HH  (humidity to 99%)
   - heartbeat + oxygen HH:OO
   - meters + centimetre MM:CC  (e.g distance sensor)
   - feet + inches FF:II
   - any pair of integers (-9 .. 99) side by side.
-- **void displayCelsius(int temp, bool colon = false)** print temperature Celsius -9 .. 99 + °C.
-The colon is default false. 
+- **void displayCelsius(int temp, bool colon = false)** print temperature **Celsius**.
+The function allows a range from -9 .. 99 + °C.
+The colon is default false.
+Works only on a 4 digit display.
 It can be used e.g. to indicate under- or overflow, or any other threshold.
 
 ```cpp
@@ -102,7 +105,7 @@ So "hello " is coded as 0x13, 0x0e, 0x17, 0x17, 0x1a, 0x10
 
 #### displayPChar explained
 
-**void displayPChar(char \*buff)** Attempts to display every ASCII character 0x30 to 0x5F. 
+**void displayPChar(char \* buff)** Attempts to display every ASCII character 0x30 to 0x5F. 
 See example TM1637_custom.ino to insert your own 7 segment patterns.
 Also displayed are  '  ' , '.' and '-' . Decimal points may also be displayed by setting the character sign bit.
 
@@ -131,8 +134,10 @@ please open an issue on GitHub so it can be build in.
 
 #### Tuning function
 
-To tune the timing of writing bytes. 
-An UNO can gain ~100 micros per call by setting it to 0.
+**setBitDelay()** is used to tune the timing of writing bytes. 
+An UNO can gain up to 100 micros per call by setting the bit delay to 0.
+However some displays might fail with short bit delay's.
+Do not forget to use a pull up resistor on the clock and data line.
 
 - **void setBitDelay(uint8_t bitDelay = 10)**
 - **uint8_t getBitDelay()**
@@ -240,7 +245,9 @@ See examples
 - **keyScan()** camelCase ?
 - add debug flag for test without hardware.
   - simulate output to Serial? (HEX)?
-
+- extend some functions to 6 digit display too?
+  - time, celsius, twoint
+- 
 
 #### Wont (unless requested)
 
