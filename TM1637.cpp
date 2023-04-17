@@ -276,6 +276,8 @@ void TM1637::displayCelsius(int temp, bool colon)
 {
   if (_digits != 4) return;
   uint8_t data[4] = { 12, 18, 16, 16 };
+  if (temp < -9) temp = -9;
+  if (temp > 99) temp = 99;
   if (temp < 0)
   {
     data[3] = TM1637_MINUS;

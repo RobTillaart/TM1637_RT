@@ -9,7 +9,7 @@
 
 TM1637 TM;
 
-int temperature = -9;
+int temperature = 0;
 
 void setup()
 {
@@ -27,10 +27,11 @@ void loop()
   else TM.setBrightness(temperature / 20);
 
   //  simulate temperature
-  TM.displayCelsius(temperature);  //  default colon off.
+  //  colon indicate overflow or underflow.
+  TM.displayCelsius(temperature, (temperature < -9) || (temperature > 99));
   temperature++;
-  if (temperature == 100) temperature = -9;
-  delay(250);
+  if (temperature == 125) temperature = -20;
+  delay(100);
 }
 
 

@@ -66,6 +66,12 @@ Applications include:
   - feet + inches FF:II
   - any pair of integers (-9 .. 99) side by side.
 - **void displayCelsius(int temp, bool colon = false)** print temperature Celsius -9 .. 99 + °C.
+The colon is default false. 
+It can be used e.g. to indicate under- or overflow, or any other threshold.
+
+```cpp
+TM.displayCelsius(temperature, (temperature < -9) || (temperature > 99));
+```
 
 
 #### Brightness
