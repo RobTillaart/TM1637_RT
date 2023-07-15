@@ -3,7 +3,7 @@
 //    FILE: TM1637.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2019-10-28
-// VERSION: 0.3.7
+// VERSION: 0.3.8
 // PUPROSE: TM1637 library for Arduino
 //     URL: https://github.com/RobTillaart/TM1637_RT
 
@@ -14,7 +14,7 @@
 
 #include "Arduino.h"
 
-#define TM1637_LIB_VERSION      (F("0.3.7"))
+#define TM1637_LIB_VERSION      (F("0.3.8"))
 
 
 class TM1637
@@ -33,12 +33,16 @@ public:
   void displayFloat(float value);
   void displayFloat(float value, uint8_t fixedPoint);
   void displayHex(uint32_t value);
+
   void displayClear();
+  void displayRefresh();
 
   //  next 3 only tested on 4 digit display with colon
   void displayTime(uint8_t hh, uint8_t mm, bool colon);
   void displayTwoInt(int ll, int rr, bool colon = true);
   void displayCelsius(int temp, bool colon = false);
+
+  void displayFahrenheit(int temp, bool colon = false);
 
 
   //  BRIGHTNESS
@@ -70,15 +74,25 @@ public:
   //  init will be replaced by begin() in the future (0.4.0)
   void init(uint8_t clockPin, uint8_t dataPin, uint8_t digits = 6);
 
+  //  DEBUG
+  void dumpCache();
+
+
+  //  EXPERIMENTAL
+  void hideSegment(uint8_t idx);
+
 
 private:
-  uint8_t _clock      = -1;
-  uint8_t _data       = -1;
+  uint8_t _clockPin   = -1;
+  uint8_t _dataPin    = -1;
   uint8_t _digits     = 6;
   uint8_t _brightness = 3;
   uint8_t _bitDelay   = 10;
 
   uint8_t _digitOrder[8];
+
+  uint8_t _data[8];
+  uint8_t _lastPointPos;
 
   uint8_t writeByte(uint8_t data);
   void    start();

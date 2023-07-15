@@ -42,13 +42,14 @@ this is used as the default of the digits parameter.
 #### Display functions
 
 - **void displayPChar(char \*buff)** display the buffer. 
-Experimental - Tested on STM32 and Arduino Nano
-- **void displayRaw(uint8_t \* data, uint8_t pointPos)** low level write function.
-- **void displayInt(long value)** idem
+Experimental - Tested on STM32 and Arduino Nano.
+- **void displayRaw(uint8_t \* data, uint8_t pointPos)** low level write function. 
+- **void displayInt(long value)** idem.
 - **void displayFloat(float value)** idem, position of point may vary!
 - **void displayFloat(float value, uint8_t fixedPoint)** display float with fixed point position.
 - **void displayHex(uint32_t value)** idem
 - **void displayClear()** writes spaces to all positions, effectively clearing the display.
+- **void displayRefresh()** refreshes last written data on display.
 - **void displayTime(uint8_t hh, uint8_t mm, bool colon)** displays time format.
 The function does not check for overflow e.g. hh > 59 or mm > 59.
 Works only on a 4 digit display.
@@ -70,7 +71,12 @@ Applications include:
 The function allows a range from -9 .. 99 + °C.
 The colon is default false.
 Works only on a 4 digit display.
-It can be used e.g. to indicate under- or overflow, or any other threshold.
+Colon can be used e.g. to indicate under- or overflow, or any other threshold.
+- **void displayFahrenheit(int temp, bool colon = false)** print temperature **Fahrenheit**.
+The function allows a range from -9 .. 99 + °F.
+The colon is default false.
+Works only on a 4 digit display.
+Colon can be used e.g. to indicate under- or overflow, or any other threshold.
 
 ```cpp
 TM.displayCelsius(temperature, (temperature < -9) || (temperature > 99));
@@ -246,8 +252,11 @@ See examples
 - add debug flag for test without hardware.
   - simulate output to Serial? (HEX)?
 - extend some functions to 6 digit display too?
-  - time, celsius, twoint
-- 
+  - time, Celsius, twoInt
+- remove degree sign from **displayCelsius()** ?
+  - would allow one extra digit.
+  - **displayFahrenheit()** idem.
+
 
 #### Wont (unless requested)
 
