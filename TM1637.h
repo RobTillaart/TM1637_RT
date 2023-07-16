@@ -80,6 +80,7 @@ public:
 
   //  EXPERIMENTAL
   void hideSegment(uint8_t idx);
+  void hideMultiSegment(uint8_t mask);
 
 
 private:

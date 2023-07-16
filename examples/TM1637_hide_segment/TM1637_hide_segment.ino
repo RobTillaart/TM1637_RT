@@ -34,15 +34,25 @@ void loop()
   bool colon = (millis() % 1000 < 500);
 
   TM.displayTime(hh, mm, colon);
-  delay(200);
+  delay(100);
+  TM.hideSegment(0);
+  delay(100);
   TM.hideSegment(1);
-  delay(200);
+  delay(100);
   TM.hideSegment(2);
-  delay(200);
+  delay(100);
   TM.hideSegment(3);
-  delay(200);
-  TM.hideSegment(4);
-  delay(200);
+  delay(100);
+  TM.hideMultiSegment(0b00001111);
+  delay(100);
+  TM.hideMultiSegment(0b00001110);
+  delay(100);
+  TM.hideMultiSegment(0b00001100);
+  delay(100);
+  TM.hideMultiSegment(0b00001000);
+  delay(100);
+  TM.hideMultiSegment(0b00000000);
+  delay(100);
   TM.displayRefresh();
 }
 

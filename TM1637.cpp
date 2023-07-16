@@ -404,7 +404,7 @@ void TM1637::displayRaw(uint8_t * raw, uint8_t pointPos)
   //  DEBUG
   for (uint8_t d = 0; d < _digits; d++)
   {
-    uint8_t x = raw[_digits - d];
+    uint8_t x = raw[_digits - d - 1];
     if (x < 0x10) Serial.print('0');
     Serial.print(x, HEX);
     Serial.print('-');
@@ -463,10 +463,28 @@ void TM1637::hideSegment(uint8_t idx)
 {
   Serial.println(__FUNCTION__);
   Serial.println(idx);
+
   if (idx > 7) return;
   uint8_t tmp[8];
   for (int i = 0; i < 8; i++) tmp[i] = _data[i];
   tmp[idx] = TM1637_SPACE;
+  displayRaw(tmp, _lastPointPos);
+}
+
+
+void TM1637::hideMultiSegment(uint8_t mask)
+{
+  //  debug info
+  Serial.println(__FUNCTION__);
+  Serial.println(mask, HEX);
+
+  uint8_t tmp[8];
+  for (int i = 0; i < 8; i++) 
+  {
+    if ((mask & 0x01) == 0x01) tmp[i] = TM1637_SPACE;
+    else tmp[i] = _data[i];
+    mask >>= 1;
+  }
   displayRaw(tmp, _lastPointPos);
 }
 

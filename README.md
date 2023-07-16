@@ -39,7 +39,15 @@ As the display is only tested with a 6 digit display,
 this is used as the default of the digits parameter.
 
 
-#### Display functions
+#### Display functions I
+
+- **void displayClear()** writes spaces to all positions, effectively clearing the display.
+- **void displayRefresh()** refreshes last written data on display.
+- **void hideSegment(uint8_t idx)** writes space to a single segment.
+- **void hideMultiSegment(uint8_t mask)** writes spaces to 0 or more segments depending on the mask.
+
+
+#### Display functions II
 
 - **void displayPChar(char \*buff)** display the buffer. 
 Experimental - Tested on STM32 and Arduino Nano.
@@ -48,8 +56,6 @@ Experimental - Tested on STM32 and Arduino Nano.
 - **void displayFloat(float value)** idem, position of point may vary!
 - **void displayFloat(float value, uint8_t fixedPoint)** display float with fixed point position.
 - **void displayHex(uint32_t value)** idem
-- **void displayClear()** writes spaces to all positions, effectively clearing the display.
-- **void displayRefresh()** refreshes last written data on display.
 - **void displayTime(uint8_t hh, uint8_t mm, bool colon)** displays time format.
 The function does not check for overflow e.g. hh > 59 or mm > 59.
 Works only on a 4 digit display.
@@ -119,6 +125,13 @@ See routine **ascii_to_7segment()** in the example TM1637_keyscan_cooked.ino.
 It presents a more convenient interface for displaying text messages on the display.
 
 Routine **button_poll()** in the same example shows one way of polling and de-bouncing button presses.
+
+
+#### hideSegment() explained
+
+- **void hideSegment(uint8_t idx)** hides a single segment until any other call to display.
+- **void hideMultiSegment(uint8_t mask)** hides 0 or more segments depending on the mask.
+- **void displayRefresh()** refreshes last written data on display.
 
 
 #### Obsolete (0.4.0)
@@ -256,6 +269,8 @@ See examples
 - remove degree sign from **displayCelsius()** ?
   - would allow one extra digit.
   - **displayFahrenheit()** idem.
+- add parameter for hideSegement(idx, character == SPACE) to overrule 
+- add TM1637_UNDERSCORE to char set. ```seg[19] == 0x08```
 
 
 #### Wont (unless requested)
