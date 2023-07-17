@@ -262,15 +262,13 @@ See examples
 #### Could
 
 - **keyScan()** camelCase ?
-- add debug flag for test without hardware.
-  - simulate output to Serial? (HEX)?
-- extend some functions to 6 digit display too?
-  - time, Celsius, twoInt
 - remove degree sign from **displayCelsius()** ?
   - would allow one extra digit.
   - **displayFahrenheit()** idem.
-- add parameter for hideSegement(idx, character == SPACE) to overrule 
-- add TM1637_UNDERSCORE to char set. ```seg[19] == 0x08```
+  - could be optional when needed e.g. below -9 or above 99
+- add parameter for **hideSegement(idx, character == SPACE)** to overrule hide char.
+  - space underscore or - are possible.
+- add **TM1637_UNDERSCORE** to char set. ```seg[19] == 0x08```
 
 
 #### Wont (unless requested)
@@ -286,3 +284,13 @@ See examples
   - performance measurement
 - **displayTest()** function ?
   - not needed just print 88888888
+- add debug flag for test without hardware.
+  - simulate output to Serial? (HEX)?
+  - is now commented code, good enough + dumpcache()
+- extend some functions to 6 digit display too?
+  - time(hh.mm.ss)
+  - Celsius (nn.nn°C)
+  - twoInt => threeInt
+  - on request only
+
+
