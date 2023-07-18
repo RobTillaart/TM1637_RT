@@ -34,14 +34,7 @@ public:
   void displayFloat(float value, uint8_t fixedPoint);
   void displayHex(uint32_t value);
 
-  // DISPLAY FUNCTIONS META
-  void displayClear();
-  void displayRefresh();
-  //  EXPERIMENTAL 0.3.8
-  void hideSegment(uint8_t idx);
-  void hideMultiSegment(uint8_t mask);
-  
-  
+
   //  next 3 only tested on 4 digit display with colon
   void displayTime(uint8_t hh, uint8_t mm, bool colon);
   void displayTwoInt(int ll, int rr, bool colon = true);
@@ -49,6 +42,14 @@ public:
   void displayCelsius(int temp, bool colon = false);
   //  Fahrenheit -9..99°F
   void displayFahrenheit(int temp, bool colon = false);
+
+
+  // DISPLAY FUNCTIONS META
+  void displayClear();
+  void displayRefresh();
+  //  EXPERIMENTAL 0.3.8
+  void hideSegment(uint8_t idx);
+  void hideMultiSegment(uint8_t mask); // 0 bit = show  1 bit = hide
 
 
   //  BRIGHTNESS
@@ -80,11 +81,8 @@ public:
   //  init will be replaced by begin() in the future (0.4.0)
   void init(uint8_t clockPin, uint8_t dataPin, uint8_t digits = 6);
 
-  //  DEBUG
+  //  DEBUG only
   void dumpCache();
-
-
-
 
 
 private:
@@ -103,8 +101,8 @@ private:
   void    start();
   void    stop();
 
-  void writeSync(uint8_t pin, uint8_t val);
-  void nanoDelay(uint16_t n);
+  void    writeSync(uint8_t pin, uint8_t val);
+  void    nanoDelay(uint16_t n);
 
   // Override in your own derived class for custom character translation
   virtual uint8_t asciiTo7Segment ( char c ) ;

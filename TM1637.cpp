@@ -166,9 +166,6 @@ void TM1637::displayFloat(float value)
 
 void TM1637::displayFloat(float value, uint8_t fixedPoint)
 {
-  //  DEBUG
-  //  Serial.println(value);
-
   for (int i = 0; i < 8; i++) _data[i] = TM1637_SPACE;  //  16
 
   float v   = value;
@@ -280,8 +277,7 @@ void TM1637::displayCelsius(int temp, bool colon)
   for (int i = 0; i < 8; i++) _data[i] = TM1637_SPACE;  //  16
   _data[0] = 12;             //  C
   _data[1] = TM1637_DEGREE;  //  ° degreee sign
-  
-  
+
   if (temp < -9) temp = -9;
   if (temp > 99) temp = 99;
   if (temp < 0)
@@ -304,8 +300,7 @@ void TM1637::displayFahrenheit(int temp, bool colon)
   for (int i = 0; i < 8; i++) _data[i] = TM1637_SPACE;  //  16
   _data[0] = 15;             //  F
   _data[1] = TM1637_DEGREE;  //  ° degreee sign
-  
-  
+
   if (temp < -9) temp = -9;
   if (temp > 99) temp = 99;
   if (temp < 0)
@@ -331,8 +326,31 @@ void TM1637::displayClear()
 
 void TM1637::displayRefresh()
 {
-  //  just print internal buffer again.
+  //  display internal buffer again.
   displayRaw(_data, _lastPointPos);
+}
+
+
+void TM1637::hideSegment(uint8_t idx)
+{
+  if (idx > 7) return;
+  uint8_t tmp[8];
+  for (int i = 0; i < 8; i++) tmp[i] = _data[i];
+  tmp[idx] = TM1637_SPACE;
+  displayRaw(tmp, _lastPointPos);
+}
+
+
+void TM1637::hideMultiSegment(uint8_t mask)
+{
+  uint8_t tmp[8];
+  for (int i = 0; i < 8; i++)
+  {
+    if ((mask & 0x01) == 0x01) tmp[i] = TM1637_SPACE;
+    else tmp[i] = _data[i];
+    mask >>= 1;
+  }
+  displayRaw(tmp, _lastPointPos);
 }
 
 
@@ -386,7 +404,7 @@ void TM1637::displayPChar( char * data )
   start();
   writeByte(TM1637_CMD_SET_ADDR);
 
-  for (int d = _digits-1; d >=0 ; d--)
+  for (int d = _digits-1; d >= 0 ; d--)
   {
     uint8_t i = _digitOrder[d];
     writeByte( asciiTo7Segment(data[i]) );
@@ -424,6 +442,7 @@ void TM1637::displayRaw(uint8_t * raw, uint8_t pointPos)
   for (uint8_t d = 0; d < _digits; d++)
   {
     uint8_t i = _digitOrder[d];
+    bool hasPoint = raw[i] & 0x80;
     raw[i] &= 0x7f;
     if (raw[i] <= 18)        //  HEX DIGIT
     {
@@ -434,7 +453,7 @@ void TM1637::displayRaw(uint8_t * raw, uint8_t pointPos)
       b = alpha_seg[raw[i] - 18];
     }
     //  do we need a decimal point
-    if ((i == pointPos) || (raw[i] & 0x80))
+    if ((i == pointPos) || hasPoint)
     {
       b |= 0x80;
     }
@@ -456,29 +475,6 @@ void TM1637::dumpCache()
     Serial.print(" ");
   }
   Serial.println();
-}
-
-
-void TM1637::hideSegment(uint8_t idx)
-{
-  if (idx > 7) return;
-  uint8_t tmp[8];
-  for (int i = 0; i < 8; i++) tmp[i] = _data[i];
-  tmp[idx] = TM1637_SPACE;
-  displayRaw(tmp, _lastPointPos);
-}
-
-
-void TM1637::hideMultiSegment(uint8_t mask)
-{
-  uint8_t tmp[8];
-  for (int i = 0; i < 8; i++) 
-  {
-    if ((mask & 0x01) == 0x01) tmp[i] = TM1637_SPACE;
-    else tmp[i] = _data[i];
-    mask >>= 1;
-  }
-  displayRaw(tmp, _lastPointPos);
 }
 
 

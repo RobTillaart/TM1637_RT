@@ -16,6 +16,8 @@ displayHex	KEYWORD2
 
 displayClear	KEYWORD2
 displayRefresh	KEYWORD2
+hideSegment	KEYWORD2
+hideMultiSegment	KEYWORD2
 
 displayTime	KEYWORD2
 displayTwoInt	KEYWORD2

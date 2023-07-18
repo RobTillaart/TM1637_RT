@@ -9,10 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [0.3.8] - 2023-07-15
 - fix #27
 - replaced function data\[8] with a class level data\[8].
-- add **hideSegment(uint8_t n)** hide a single segment 
+- add **hideSegment(uint8_t n)** hide a single segment
 - add **hideMultiSegment(uint8_t mask)** hide multiple segments
 - add **displayFahrenheit()** -9..99F
 - add **displayRefresh()** to refresh last written data.
+- update keywords.txt
+- fix bug in **displayRaw()** (add bool hasPoint).
 - update readme.md
 
 
