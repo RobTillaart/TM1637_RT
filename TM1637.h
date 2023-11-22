@@ -3,10 +3,16 @@
 //    FILE: TM1637.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2019-10-28
-// VERSION: 0.3.8
+// VERSION: 0.3.9
 // PUPROSE: TM1637 library for Arduino
 //     URL: https://github.com/RobTillaart/TM1637_RT
 
+//  NOTE:
+//  on the inexpensive TM1637 boards @wfdudley has used, keyscan
+//  works if you add a 1000 ohm pull-up resistor from DIO to 3.3v
+//  This reduces the rise time of the DIO signal when reading the key info.
+//  If one only uses the pull-up inside the microcontroller,
+//  the rise time is too long for the data to be read reliably.
 
 //  tested on 6 digit display
 //  tested on 4 digit (clock) display esp. displayTime()
@@ -14,7 +20,7 @@
 
 #include "Arduino.h"
 
-#define TM1637_LIB_VERSION      (F("0.3.8"))
+#define TM1637_LIB_VERSION      (F("0.3.9"))
 
 
 class TM1637
@@ -38,9 +44,9 @@ public:
   //  next 3 only tested on 4 digit display with colon
   void displayTime(uint8_t hh, uint8_t mm, bool colon);
   void displayTwoInt(int ll, int rr, bool colon = true);
-  //  Celsius  -9..99°C
+  //  Celsius  -9..99Â°C
   void displayCelsius(int temp, bool colon = false);
-  //  Fahrenheit -9..99°F
+  //  Fahrenheit -9..99Â°F
   void displayFahrenheit(int temp, bool colon = false);
 
 
@@ -104,7 +110,7 @@ private:
   void    writeSync(uint8_t pin, uint8_t val);
   void    nanoDelay(uint16_t n);
 
-  // Override in your own derived class for custom character translation
+  //  Override in your own derived class for custom character translation
   virtual uint8_t asciiTo7Segment ( char c ) ;
 };
 

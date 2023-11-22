@@ -1,8 +1,12 @@
-[![Arduino CI](https://github.com/robtillaart/TM1637_RT/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+
+[![Arduino CI](https://github.com/RobTillaart/TM1637_RT/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/TM1637_RT/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/TM1637_RT/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/TM1637_RT/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/TM1637_RT/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/TM1637_RT.svg)](https://github.com/RobTillaart/TM1637_RT/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/TM1637_RT/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/TM1637_RT.svg?maxAge=3600)](https://github.com/RobTillaart/TM1637_RT/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/TM1637_RT.svg)](https://registry.platformio.org/libraries/robtillaart/TM1637_RT)
 
 
 # TM1637
@@ -22,6 +26,8 @@ ESP32 is supported since 0.2.0 see https://github.com/RobTillaart/TM1637_RT/pull
 #### Related
 
 - https://docs.wokwi.com/parts/wokwi-tm1637-7segment#simulator-examples
+
+
 
 
 ## Interface
@@ -79,12 +85,12 @@ Applications include:
   - feet + inches FF:II
   - any pair of integers (-9 .. 99) side by side.
 - **void displayCelsius(int temp, bool colon = false)** print temperature in **Celsius** format.
-The function allows a range from -9 .. 99 + °C.
+The function allows a range from -9 .. 99 + Â°C.
 The colon is default false.
 Works only on a 4 digit display.
 Colon can be used e.g. to indicate under- or overflow, or any other threshold.
 - **void displayFahrenheit(int temp, bool colon = false)** print temperature in **Fahrenheit** format.
-The function allows a range from -9 .. 99 + °F.
+The function allows a range from -9 .. 99 + Â°F.
 The colon is default false.
 Works only on a 4 digit display.
 Colon can be used e.g. to indicate under- or overflow, or any other threshold.
@@ -206,6 +212,9 @@ Feel free to file an issue to get your processor supported.
 
 ## Keyboard Scanner usage and notes
 
+- Kudos to wfdudley for this section - See #11
+- 
+
 Calling **keyscan()** returns a uint8_t, whose value is 0xff if no keys are being pressed at the time.  
 The TM1637 can only see one key press at a time, and there is no "rollover".  
 If a key is pressed, then the values are as follows:
@@ -231,31 +240,60 @@ If a key is pressed, then the values are as follows:
 </TR>
 </TABLE>
 </CENTER>
-<P>
-To modify a "generic" TM1637 board for use with a keyboard, you must add connections to either or both of pins 19 and 20 (these are the "row" selects) and then to as many of pins 2 through 9 (the "columns") as needed.  It is easiest to connect to the "column pins" (2-9) by picking them up where they connect to the LED displays (see second photo).  Generic keyboards that are a 4x4 matrix won't work; the TM1637 can only scan a 2x8 matrix.  Of course, fewer keys are acceptable; I use a 1x4 keyboard in my projects.
-</P>
-<P>
-Further, the TM1637 chip needs a fairly hefty pull-up on the DIO pin for the keyscan() routine to work.  There is no pull-up in the TM1637 itself, and the clone boards don't seem to have one either, despite the data sheet calling for 10K ohms pull-ups on DIO and CLOCK.  10K is too weak anyway.  The slow rise-time of the DIO signal means that the "true/high" value isn't reached fast enough and reliably enough for the processor to read it correctly.  The new pull-up reduces the rise time of the signal, so that true/high values are achieved in a few microseconds.  I find that a 1K (1000) ohm resistor from DIO to 3.3 v works well.  This is perfect with a 3.3 volt processor like the ESP8266 or ESP32, and a 5V Atmega 328 ("Arduino UNO") family processor is happy with that as well.
-</P>
-<P>
-The TM1637 boards want to be run off of 5 volts, regardless of what the processor voltage is.  Their logic levels are compatible with 3.3 volt processors, and they need 5 volts to make sure the LEDs light up.
-</P>
-The unmodified generic TM1637 board (front and back).</br>
-<IMG src="images/unmodified.jpg">
-</br>
-The modified generic TM1637 board with connector for 1x4 keyboard. The blue wire is bringing out pin 19 (k1).  Four segments/columns are picked up from the LEDs.</br>
-<IMG src="images/modified.jpg">
-</br>
-The 4 button keyboard plugged into the TM1637 board.</br>
-<IMG src="images/disp_plus_kbd.jpg"></br>
-</br>
-Scope photo showing slow rise time of DIO pin (upper trace) on the unmodified TM1637.  The lower trace is the CLK.  The 8 fast CLK pulses on the left represent the 0x42 command to read keyboard being sent to the TM1637.</br>
-<IMG src="images/slow_rise.jpg"></br>
-</br>
-Scope photo showing faster rise time of DIO pin (upper trace) with 1000 ohm pull-up on DIO.  In both scope photos, the F5 key is pressed; the bits are least significant bit (LSB) first, so read as 10101111 left to right.</br>
-<IMG src="images/fast_rise.jpg"></br>
 
-The scope photos were taken using the TM1637_keyscan_raw example, with the scope trigger hooked to the TRIGGER pin, and the two channel probes hooked to DIO and CLK.  Vertical sensitivity is 2v/division, horizontal timebase is 20usec/division.
+
+To modify a "generic" TM1637 board for use with a keyboard, you must add connections to either
+or both of pins 19 and 20 (these are the "row" selects) and then to as many of pins 2 through 9
+(the "columns") as needed.  It is easiest to connect to the "column pins" (2-9) by picking them
+up where they connect to the LED displays (see second photo).
+Generic keyboards that are a 4x4 matrix won't work; the TM1637 can only scan a 2x8 matrix.
+Of course, fewer keys are acceptable; I use a 1x4 keyboard in my projects.
+
+Further, the TM1637 chip needs a fairly hefty pull-up on the DIO pin for the keyscan() routine to work.
+There is no pull-up in the TM1637 itself, and the clone boards don't seem to have one either,
+despite the data sheet calling for 10K ohms pull-ups on DIO and CLOCK.  10K is too weak anyway.
+The slow rise-time of the DIO signal means that the "true/high" value isn't reached fast enough and 
+reliably enough for the processor to read it correctly. The new pull-up reduces the rise time of the signal, 
+so that true/high values are achieved in a few microseconds.
+I find that a 1K (1000) ohm resistor from DIO to 3.3 v works well. This is perfect with a 3.3 volt processor 
+like the ESP8266 or ESP32, and a 5V Atmega 328 ("Arduino UNO") family processor is happy with that as well.
+
+The TM1637 boards want to be run off of 5 volts, regardless of what the processor voltage is.
+Their logic levels are compatible with 3.3 volt processors, and they need 5 volts to make sure the LEDs light up.
+
+
+The unmodified generic TM1637 board (front and back).
+
+<IMG src="images/unmodified.jpg">
+
+
+The modified generic TM1637 board with connector for 1x4 keyboard. 
+The blue wire is bringing out pin 19 (k1).
+Four segments/columns are picked up from the LEDs.
+
+<IMG src="images/modified.jpg">
+
+The 4 button keyboard plugged into the TM1637 board.
+
+<IMG src="images/disp_plus_kbd.jpg">
+
+
+Scope photo showing slow rise time of DIO pin (upper trace) on the unmodified TM1637.
+The lower trace is the CLK.  The 8 fast CLK pulses on the left represent the 0x42 command 
+to read keyboard being sent to the TM1637.
+
+<IMG src="images/slow_rise.jpg">
+
+
+Scope photo showing faster rise time of DIO pin (upper trace) with 1000 ohm pull-up on DIO.
+In both scope photos, the F5 key is pressed; the bits are least significant bit (LSB) first,
+so read as 10101111 left to right.
+
+<IMG src="images/fast_rise.jpg">
+
+The scope photos were taken using the TM1637_keyscan_raw example, with the scope trigger 
+hooked to the TRIGGER pin, and the two channel probes hooked to DIO and CLK.
+Vertical sensitivity is 2v/division, horizontal timebase is 20usec/division.
 
 
 ## Keyscan
@@ -286,7 +324,6 @@ See examples
   - **setLeadingZeros(bool on = false)** leading zeros flag, set data array to 0.
   - **getLeadingZeros()**
 
-
 #### Should
 
 - testing other platforms.
@@ -296,19 +333,22 @@ See examples
   - **displayFahrenheit()** idem.
   - could be optional when needed e.g. below -9 or above 99
 
-
 #### Could
 
 - **keyScan()** camelCase ?
 - add parameter for **hideSegement(idx, character == SPACE)** to overrule hide char.
   - space underscore or - are possible.
 - add **TM1637_UNDERSCORE** to char set. ```seg[19] == 0x08```
+- add **TM1637_UPPERSCORE** to char set. ```seg[20] == 0x01```
 - return bytes written as return value for display functions.
+  - like print(); or write();
 - **void displayHumidity(int hum, bool colon = false)** print humidity in **percent** format.
 The function allows a range from 0.00H .. 99.9H or 00.0H ?
 Colon to indicate rising / falling ????
 - generic function that displays three digits and one char ACDEFH ???
-  - common for celsius and fahrenheit and humidity?
+  - common for Celsius and Fahrenheit and Humidity?
+- **void displayAmpere(float amps)** Ampere 0.00 - 999 A
+
 
 #### Wont (unless requested)
 
@@ -328,8 +368,16 @@ Colon to indicate rising / falling ????
   - is now commented code, good enough + dumpcache()
 - extend some functions to 6 digit display too?
   - time(hh.mm.ss)
-  - Celsius (nn.nn°C)
+  - Celsius (nn.nnÂ°C)
   - twoInt => threeInt
   - on request only
 
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 
