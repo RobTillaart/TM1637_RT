@@ -36,6 +36,7 @@ From tests of SteveMicroCode (See #29) it became clear that the proposed hardwar
 datasheet is very robust but slow. See page 8 datasheet.
 Leaving out the 100 pF capacitors on the CLK and DIO line, or dimension them smaller,
 allows for faster communication and thus more efficient CPU use. 
+More about his tests see - https://github.com/SteveMicroCode/PIC-TM1637-Library-CodeOn 
 
 Additional tests of wfdudley (See Keyboard Scanner section) shows that reducing
 the pull up resistor from 10 KΩ to 1000 Ω improves the signal quality.
