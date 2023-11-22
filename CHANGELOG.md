@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [0.3.9] - 2023-11-22
 - update readme.md
+  - section about hardware performance (Kudos to SteveMicroCode #29)
   - incl badges to platformIO
 
 

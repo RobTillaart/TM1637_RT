@@ -276,7 +276,7 @@ void TM1637::displayCelsius(int temp, bool colon)
   if (_digits != 4) return;
   for (int i = 0; i < 8; i++) _data[i] = TM1637_SPACE;  //  16
   _data[0] = 12;             //  C
-  _data[1] = TM1637_DEGREE;  //  ° degreee sign
+  _data[1] = TM1637_DEGREE;  //  ° degree sign
 
   if (temp < -9) temp = -9;
   if (temp > 99) temp = 99;
@@ -299,7 +299,7 @@ void TM1637::displayFahrenheit(int temp, bool colon)
   if (_digits != 4) return;
   for (int i = 0; i < 8; i++) _data[i] = TM1637_SPACE;  //  16
   _data[0] = 15;             //  F
-  _data[1] = TM1637_DEGREE;  //  ° degreee sign
+  _data[1] = TM1637_DEGREE;  //  ° degree sign
 
   if (temp < -9) temp = -9;
   if (temp > 99) temp = 99;

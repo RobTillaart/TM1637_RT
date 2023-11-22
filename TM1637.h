@@ -55,7 +55,7 @@ public:
   void displayRefresh();
   //  EXPERIMENTAL 0.3.8
   void hideSegment(uint8_t idx);
-  void hideMultiSegment(uint8_t mask); // 0 bit = show  1 bit = hide
+  void hideMultiSegment(uint8_t mask);  //  0 bit = show  1 bit = hide
 
 
   //  BRIGHTNESS

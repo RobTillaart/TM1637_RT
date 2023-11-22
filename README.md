@@ -18,7 +18,7 @@ Library for TM1637 driven displays and key scans.
 
 The TM1637 drives 7 segment displays and can also scan a 16 key keyboard.
 
-Library is tested with Arduino UNO and a 6 digits display and 4 digit (clock) display.
+The library is mainly tested with Arduino UNO, both a 6 digits display and 4 digit (clock) display.
 
 ESP32 is supported since 0.2.0 see https://github.com/RobTillaart/TM1637_RT/pull/5
 
@@ -26,6 +26,8 @@ ESP32 is supported since 0.2.0 see https://github.com/RobTillaart/TM1637_RT/pull
 #### Related
 
 - https://docs.wokwi.com/parts/wokwi-tm1637-7segment#simulator-examples
+- https://github.com/SteveMicroCode/PIC-TM1637-Library-CodeOn 
+  - includes interesting hardware notes.
 
 
 #### Hardware connection and performance
@@ -46,6 +48,8 @@ However it is always important to do your own tests if you want to tweak perform
 beyond the specifications of the datasheet. 
 Interference from other electronic components is often nearby, and if you need longer
 cables consider shielded ones.
+
+If you have additional performance tweaks, please let me know.
 
 Note: Ω = ALT-234
 
