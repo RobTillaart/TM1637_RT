@@ -8,7 +8,7 @@
 //     URL: https://github.com/RobTillaart/TM1637_RT
 
 //  NOTE:
-//  on the inexpensive TM1637 boards @wfdudley has used, keyscan
+//  on the inexpensive TM1637 boards @wfdudley has used, keyScan
 //  works if you add a 1000 ohm pull-up resistor from DIO to 3.3v
 //  This reduces the rise time of the DIO signal when reading the key info.
 //  If one only uses the pull-up inside the microcontroller,
@@ -71,7 +71,7 @@ public:
 
 
   //  KEY SCAN
-  uint8_t keyscan(void);
+  uint8_t keyScan(void);
 
 
   //  CONFIGURATION
@@ -83,12 +83,17 @@ public:
                         uint8_t g = 6, uint8_t h = 7);
 
 
-  //  OBSOLETE
-  //  init will be replaced by begin() in the future (0.4.0)
-  void init(uint8_t clockPin, uint8_t dataPin, uint8_t digits = 6);
-
   //  DEBUG only
   void dumpCache();
+
+
+  //  OBSOLETE
+  //  init() => begin() in 0.4.0
+  [[deprecated("Use begin() instead")]]
+  void    init(uint8_t clockPin, uint8_t dataPin, uint8_t digits = 6);
+  //  keyscan() => keyScan() in 0.4.0
+  [[deprecated("Use keyScan() instead => camelCase!")]]
+  uint8_t keyscan(void) { return keyScan(); };
 
 
 private:

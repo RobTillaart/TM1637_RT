@@ -19,6 +19,8 @@ Library for TM1637 driven displays and key scans.
 The TM1637 drives 7 segment displays and can also scan a 16 key keyboard.
 
 The library is mainly tested with Arduino UNO, both a 6 digits display and 4 digit (clock) display.
+The TM1637 can scan max 2 rows and 8 columns or a smaller keyboard.
+It is therefore not possible to scan a "standard" 3x4 or 4x4 matrix keypad.
 
 ESP32 is supported since 0.2.0 see https://github.com/RobTillaart/TM1637_RT/pull/5
 
@@ -28,6 +30,10 @@ ESP32 is supported since 0.2.0 see https://github.com/RobTillaart/TM1637_RT/pull
 - https://docs.wokwi.com/parts/wokwi-tm1637-7segment#simulator-examples
 - https://github.com/SteveMicroCode/PIC-TM1637-Library-CodeOn 
   - includes interesting hardware notes.
+- https://github.com/RobTillaart/HT16K33
+- https://github.com/RobTillaart/AnalogKeypad
+- https://github.com/RobTillaart/I2CKeyPad
+- https://github.com/RobTillaart/I2CKeyPad8x8
 
 
 #### Hardware connection and performance
@@ -131,14 +137,14 @@ TM.displayCelsius(temperature, (temperature < -9) || (temperature > 99));
 Note that the effective range of Celsius and Fahrenheit differs.
 When Fahrenheit goes from -9 to 99 Celsius goes from -26 to 37 (etc).
 
-|   F   |   C   |      |   F   |   C   |
+|   F   |   C   |      |   C   |   F   |
 |:-----:|:-----:|:----:|:-----:|:-----:|
-|  -9   | -26   |      |   16  |  -9   |
-|  99   |  37   |      |  210  |  99   |
+|  -9   | -26   |      |  -9   |   16  |
+|  99   |  37   |      |  99   |  210  |
 
-A three digit temperature, e.g. range -99 .. 999, would be possible but one has 
-to leave out either the ° character or the C/F.
-As the C/F is more informative, the choice is fairly easy.
+A three digit temperature, e.g. range -99 .. 999, or -9.9 .. 99.9 would be possible.
+Then one has to leave out either the ° character or the C/F.
+As the C/F is far more informative, the choice is fairly easy.
 Question is how to API should change, new function of new behaviour?
 See future.
 
@@ -151,8 +157,8 @@ See future.
 
 #### KeyScan
 
-- **uint8_t keyscan(void)** scans the keyboard once and return result. 
-The keyscan() function cannot detect multiple keys.
+- **uint8_t keyScan(void)** scans the keyboard once and return result. 
+The keyScan() function cannot detect multiple keys.
 
 
 #### DisplayRaw explained
@@ -247,7 +253,7 @@ Feel free to file an issue to get your processor supported.
 
 - Kudos to wfdudley for this section - See #11
 
-Calling **keyscan()** returns a uint8_t, whose value is 0xff if no keys are being pressed at the time.  
+Calling **keyScan()** returns a uint8_t, whose value is 0xff if no keys are being pressed at the time.  
 The TM1637 can only see one key press at a time, and there is no "rollover".  
 If a key is pressed, then the values are as follows:
 
@@ -255,7 +261,7 @@ If a key is pressed, then the values are as follows:
 <TABLE>
 <TR>
 <TD colspan = 10 align="center">
-   keyscan results are reversed left for right from the data sheet.
+   keyScan results are reversed left for right from the data sheet.
 </TD>
 </TR>
 <TR>
@@ -273,7 +279,6 @@ If a key is pressed, then the values are as follows:
 </TABLE>
 </CENTER>
 
-
 To modify a "generic" TM1637 board for use with a keyboard, you must add connections to either
 or both of pins 19 and 20 (these are the "row" selects) and then to as many of pins 2 through 9
 (the "columns") as needed.  It is easiest to connect to the "column pins" (2-9) by picking them
@@ -281,7 +286,7 @@ up where they connect to the LED displays (see second photo).
 Generic keyboards that are a 4x4 matrix won't work; the TM1637 can only scan a 2x8 matrix.
 Of course, fewer keys are acceptable; I use a 1x4 keyboard in my projects.
 
-Further, the TM1637 chip needs a fairly hefty pull-up on the DIO pin for the keyscan() routine to work.
+Further, the TM1637 chip needs a fairly hefty pull-up on the DIO pin for the keyScan() routine to work.
 There is no pull-up in the TM1637 itself, and the clone boards don't seem to have one either,
 despite the data sheet calling for 10K ohms pull-ups on DIO and CLOCK.  10K is too weak anyway.
 The slow rise-time of the DIO signal means that the "true/high" value isn't reached fast enough and 
@@ -328,14 +333,14 @@ hooked to the TRIGGER pin, and the two channel probes hooked to DIO and CLK.
 Vertical sensitivity is 2v/division, horizontal timebase is 20usec/division.
 
 
-## Keyscan
+## KeyScan
 
 Implemented in version 0.3.0  Please read the datasheet to understand the limitations.
 
 ```
 //  NOTE: 
-//  on the TM1637 boards tested by @wfdudley, keyscan() works well 
-//  if you add a 910 ohm or 1 Kohm pull-up resistor from DIO to 3.3v
+//  on the TM1637 boards tested by @wfdudley, keyScan() works well 
+//  if you add a 910 ohm or 1000 ohm pull-up resistor from DIO to 3.3v
 //  This reduces the rise time of the DIO signal when reading the key info.
 //  If one only uses the pull-up inside the microcontroller, 
 //  the rise time is too long for the data to be read reliably.
@@ -353,6 +358,7 @@ See examples
 
 - (0.4.0)
   - remove obsolete **init()** from code
+  - remove keyscan() => keyScan()
   - **setLeadingZeros(bool on = false)** leading zeros flag, set data array to 0.
   - **getLeadingZeros()**
 
@@ -367,7 +373,6 @@ See examples
 
 #### Could
 
-- **keyScan()** camelCase ?
 - add parameter for **hideSegement(idx, character == SPACE)** to overrule hide char.
   - space underscore or - are possible.
 - add **TM1637_UNDERSCORE** to char set. ```seg[19] == 0x08```

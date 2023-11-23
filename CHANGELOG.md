@@ -9,7 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [0.3.9] - 2023-11-22
 - update readme.md
   - section about hardware performance (Kudos to SteveMicroCode #29)
-  - incl badges to platformIO
+  - badges to platformIO + issues
+  - improve related section
+- update keywords.txt
+- **keyScan()** replaces keyscan() => prefer camelCase (prep 0.4.0)
+  - patched examples.
+- minor edits
 
 
 ## [0.3.8] - 2023-07-15

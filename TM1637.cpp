@@ -7,7 +7,7 @@
 //     URL: https://github.com/RobTillaart/TM1637_RT
 
 //  NOTE:
-//  on the inexpensive TM1637 boards @wfdudley has used, keyscan
+//  on the inexpensive TM1637 boards @wfdudley has used, keyScan
 //  works if you add a 1000 ohm pull-up resistor from DIO to 3.3v
 //  This reduces the rise time of the DIO signal when reading the key info.
 //  If one only uses the pull-up inside the microcontroller,
@@ -539,15 +539,15 @@ void TM1637::writeSync(uint8_t pin, uint8_t val)
 }
 
 
-//  keyscan results are reversed left for right from the data sheet.
-//  here are the values returned by keyscan():
+//  keyScan results are reversed left for right from the data sheet.
+//  here are the values returned by keyScan():
 //
 //  pin         2     3     4     5     6     7     8     9
 //            sg1   sg2   sg3   sg4   sg5   sg6   sg7   sg8
 //  19   k1  0xf7  0xf6  0xf5  0xf4  0xf3  0xf2  0xf1  0xf0
 //  20   k2  0xef  0xee  0xed  0xec  0xeb  0xea  0xe9  0xe8
 
-uint8_t TM1637::keyscan(void)
+uint8_t TM1637::keyScan(void)
 {
   uint8_t halfDelay = _bitDelay >> 1;
   uint8_t key;
