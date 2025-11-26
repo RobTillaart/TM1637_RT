@@ -28,6 +28,8 @@ ESP32 is supported since 0.2.0 see https://github.com/RobTillaart/TM1637_RT/pull
 ### Related
 
 - https://docs.wokwi.com/parts/wokwi-tm1637-7segment#simulator-examples
+  - https://wokwi.com/projects/339227323398095442 (counter demo)
+  - https://wokwi.com/projects/356661328560439297 (three display demo)
 - https://github.com/SteveMicroCode/PIC-TM1637-Library-Code
   - includes interesting hardware notes.
 - https://github.com/RobTillaart/HT16K33
